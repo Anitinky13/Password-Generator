@@ -5,7 +5,7 @@ var specialCharacter;
 var Uppercase;
 var Lowercase;
 
-//variable values
+//create arrays for each character set
 character = [
   "!",
   "#",
@@ -90,7 +90,7 @@ get.addEventListener("click", function () {
 
 // function to generate password
 function generatePassword() {
-  // Asks user input
+  //window prompt for length
   enter = parseInt(prompt("Choose characters between 8 and 128."));
 
   if (!enter) {
@@ -98,12 +98,15 @@ function generatePassword() {
   } else if (enter < 8 || enter > 128) {
     enter = parseInt(prompt("Please choose between 8 and 128."));
   } else {
-    // Continues once user input is validated 1-4
+    //window confirm for numerics
     Numeric = confirm("would you like numerics in your password?");
     specialCharacter = confirm(
+      //window confirm for symbols
       "Would you like special characters in your password?"
     );
+    //window confirm for upper case letter
     Uppercase = confirm("Would you like uppercase letters in your password?");
+    //window confirm for lower case letter
     Lowercase = confirm("Would you like lowercase letters in your password?");
   }
 
@@ -111,12 +114,12 @@ function generatePassword() {
   if (!specialCharacter && !Numeric && !Uppercase && !Lowercase) {
     Preffered = alert("You must choose at least one criteria!");
   }
-  // First if statement that uses user input prompts to determine elected.
-  // Else if for 4 positive options
+
+  //function that compiles an array based on answers/ arrays methods
   else if (specialCharacter && Numeric && Uppercase && Lowercase) {
     Preffered = character.concat(number, alpha, alpha2);
   }
-  // Else if for 3 positive options
+  // Else if for 3 yes options
   else if (specialCharacter && Numeric && Uppercase) {
     Preffered = character.concat(number, alpha2);
   } else if (specialCharacter && Numeric && Lowercase) {
@@ -149,7 +152,7 @@ function generatePassword() {
 
   var password = [];
 
-  // Random selection of all variables:
+  //function that generates a password based on the arrays selected and of the selected length(use math.floor math.random)
   for (var i = 0; i < enter; i++) {
     var pickPreffered = Preffered[Math.floor(Math.random() * Preffered.length)];
     password.push(pickPreffered);
@@ -159,12 +162,12 @@ function generatePassword() {
   UserInput(newps);
   return newps;
 }
-// password into the textbox
+// //display generated password in the password field;
 
 function UserInput(newps) {
   document.getElementById("password").textContent = newps;
 }
-
+//generate button, add eventlistener
 var copy = document.querySelector("#copy");
 copy.addEventListener("click", function () {
   copyPassword();
