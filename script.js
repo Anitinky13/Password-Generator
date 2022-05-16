@@ -1,161 +1,171 @@
-//generate button, add eventlistener
-var generateBtn = document.querySelector("#generate");
-var password = [
-  {
-    char: 0,
-    lower: false,
-    upper: false,
-    numeric: false,
-    special: false,
-  },
+//Variables
+var enter;
+var Numeric;
+var specialCharacter;
+var Uppercase;
+var Lowercase;
+
+//variable values
+character = [
+  "!",
+  "#",
+  "$",
+  "%",
+  "&",
+  "'",
+  "(",
+  ")",
+  "*",
+  "+",
+  ",",
+  "-",
+  ".",
+  "/",
+  ":",
+  ";",
+  " < ",
+  "=",
+  " > ",
+  " ? ",
+  "@",
+  "[",
+  "\\",
+  "]",
+  " ^ ",
+  "_",
+  "`",
+  "{",
+  "|",
+  "}",
+  "~",
 ];
-//start function
-var selectCriteria = function () {
-  //window prompt for length
-  password.char = window.prompt(
-    "How many characters would you like your password to be? Select a number between 8 and 128."
-  );
-  console.log("char: " + password.char);
+// Numbers included
+number = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// a-z letters
+alpha = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+];
+// Space is for the Uppercase conversion
+space = [];
 
-  // min 8, min 128
-  if (password.char >= 8 && password.char <= 128) {
-    //window confirm for lower case letter
-    password.lower = window.confirm(
-      "Would you like your password to contain lowercase letters? \nSelect OK for yes or CANCEL for no."
-    );
-    //window confirm for upper case letter
-    password.upper = window.confirm(
-      "Would you like your password to contain uppercase letters? \nSelect OK for yes or CANCEL for no."
-    );
-    //window confirm for numerics
-    password.numeric = window.confirm(
-      "Would you like your password to contain numbers? \nSelect OK for yes or CANCEL for no."
-    );
-    //window confirm for symbols
-    password.special = window.confirm(
-      "Would you like your password to contain special characters? \nSelect OK for yes or CANCEL for no."
-    );
-    //select at least one
-    if (
-      password.lower == false &&
-      password.upper == false &&
-      password.numeric == false &&
-      password.special == false
-    ) {
-      // select a criteria to create password
-      window.alert(
-        "You did not select sufficient criteria to create your password. Please try again."
-      );
-      return selectCriteria();
-    } else {
-      //inform user of criteria selected and ask to confirm
-      window.alert(
-        "Your password is ready to go. Please review the criteria you selected. If everything looks good, click on the GENERATE PASSWORD button to create your password. Otherwise, refresh the page to start over. \n\nNumber of Characters: " +
-          password.char +
-          "\nLowercase Characters Included? " +
-          password.lower +
-          "\nUppercase Characters Included? " +
-          password.upper +
-          "\nNumeric Characters Included? " +
-          password.numeric +
-          "\nSpecial Characters Included? " +
-          password.special
-      );
-    }
-  } else if (!password.char) {
-    window.alert(
-      "Welcome to Password Generator. Please answer the following prompts to get started."
-    );
-    return selectCriteria();
-  } else {
-    window.alert("You did not enter a valid number. Please try again.");
-    return selectCriteria();
-  }
+var Preffered;
+
+var toUpper = function (x) {
+  return x.toUpperCase();
 };
-// //display generated password in the password field
-function writePassword() {
-  var password = generateAPassword(password);
-  var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
-}
-//function that compiles an array based on answers/ arrays methods
+alpha2 = alpha.map(toUpper);
+
+var get = document.querySelector("#generate");
+
+get.addEventListener("click", function () {
+  newps = generatePassword();
+  document.getElementById("password").placeholder = newps;
+});
+
+// function to generate password
 function generatePassword() {
-  var passwordArray = [];
-  var password = "";
-  var specialCharArray = [
-    "~",
-    "`",
-    "!",
-    "@",
-    "#",
-    "$",
-    "%",
-    "^",
-    "&",
-    "*",
-    "(",
-    ")",
-    "_",
-    "-",
-    "+",
-    "=",
-    "{",
-    "[",
-    "}",
-    "]",
-    "|",
-    ":",
-    ";",
-    ",",
-    "'",
-    "''",
-    "<",
-    ",",
-    ">",
-    ".",
-    "?",
-    "/",
-  ];
-  // loop over length and characters call generator function for each type
-  for (var i = 0; i < char; i++) {
-    var charType = Math.floor(Math.random() * (4 - 1 + 1) + 1);
-    // random lowercase and user selected lowercase
-    if (charType == 1 && lower == true) {
-      charRandom = Math.floor(Math.random() * (122 - 97 + 1) + 97);
-      var passwordChar = String.fromCharCode(charRandom);
-      passwordArray.push(passwordChar);
-      // random uppercase and user selected uppercase
-    } else if (charType == 2 && upper == true) {
-      charRandom = Math.floor(Math.random() * (90 - 65 + 1) + 65);
-      var passwordChar = String.fromCharCode(charRandom);
-      passwordArray.push(passwordChar);
-      // random  number and user selected number
-    } else if (charType == 3 && numeric == true) {
-      charRandom = Math.floor(Math.random() * (57 - 48 + 1) + 48);
-      var passwordChar = String.fromCharCode(charRandom);
-      passwordArray.push(passwordChar);
-      // random symbol and user selected special character
-    } else if (charType == 4 && special == true) {
-      charRandom = Math.floor(
-        Math.random() * (specialCharArray.length - 1 - 0 + 1) + 0
-      );
-      var passwordChar = specialCharArray[charRandom];
-      passwordArray.push(passwordChar);
-      // re-loop if criteria not met
-    } else {
-      i -= 1;
-    }
+  // Asks user input
+  enter = parseInt(prompt("Choose characters between 8 and 128."));
+
+  if (!enter) {
+    alert("Please select a value of characters for your password.");
+  } else if (enter < 8 || enter > 128) {
+    enter = parseInt(prompt("Please choose between 8 and 128."));
+  } else {
+    // Continues once user input is validated 1-4
+    Numeric = confirm("would you like numerics in your password?");
+    specialCharacter = confirm(
+      "Would you like special characters in your password?"
+    );
+    Uppercase = confirm("Would you like uppercase letters in your password?");
+    Lowercase = confirm("Would you like lowercase letters in your password?");
   }
-  // convert passwordArray to string
-  password = passwordArray.join("");
-  return password;
+
+  // If all answers are a no.
+  if (!specialCharacter && !Numeric && !Uppercase && !Lowercase) {
+    Preffered = alert("You must choose at least one criteria!");
+  }
+  // First if statement that uses user input prompts to determine elected.
+  // Else if for 4 positive options
+  else if (specialCharacter && Numeric && Uppercase && Lowercase) {
+    Preffered = character.concat(number, alpha, alpha2);
+  }
+  // Else if for 3 positive options
+  else if (specialCharacter && Numeric && Uppercase) {
+    Preffered = character.concat(number, alpha2);
+  } else if (specialCharacter && Numeric && Lowercase) {
+    Preffered = character.concat(number, alpha);
+  } else if (specialCharacter && Lowercase && Uppercase) {
+    Preffered = character.concat(alpha, alpha2);
+  } else if (Numeric && Lowercase && Uppercase) {
+    Preffered = number.concat(alpha, alpha2);
+  } else if (specialCharacter && Numeric) {
+    Preffered = character.concat(number);
+  } else if (specialCharacter && Lowercase) {
+    Preffered = character.concat(alpha);
+  } else if (specialCharacter && Uppercase) {
+    Preffered = character.concat(alpha2);
+  } else if (Lowercase && Numeric) {
+    Preffered = alpha.concat(number);
+  } else if (Lowercase && Uppercase) {
+    Preffered = alpha.concat(alpha2);
+  } else if (Numeric && Uppercase) {
+    Preffered = number.concat(alpha2);
+  } else if (specialCharacter) {
+    Preffered = character;
+  } else if (Numeric) {
+    Preffered = number;
+  } else if (Lowercase) {
+    Preffered = alpha;
+  } else if (Uppercase) {
+    Preffered = space.concat(alpha2);
+  }
+
+  var password = [];
+
+  // Random selection of all variables:
+  for (var i = 0; i < enter; i++) {
+    var pickPreffered = Preffered[Math.floor(Math.random() * Preffered.length)];
+    password.push(pickPreffered);
+  }
+
+  var newps = password.join("");
+  UserInput(newps);
+  return newps;
+}
+// password into the textbox
+
+function UserInput(newps) {
+  document.getElementById("password").textContent = newps;
 }
 
-// welcome message
-window.alert(
-  "Welcome to Password Generator. Please answer the following prompts to get started."
-);
-// prompt user to select password criteria
-selectCriteria();
-// add event listener to generate button & run selectCriteria function
+var copy = document.querySelector("#copy");
+copy.addEventListener("click", function () {
+  copyPassword();
+});
